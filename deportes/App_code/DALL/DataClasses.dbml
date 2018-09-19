@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="deportes" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=HECTOR;Initial Catalog=deportes;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="deportesConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Actividades" Member="Actividades">
+    <Type Name="Actividades">
+      <Column Name="IDPublicacion" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDUsuario" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Categoria" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="roles" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="Hora" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Descripciondelvideo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Usuarios_Actividades" Member="Usuarios" ThisKey="IDUsuario" OtherKey="IDusuario" Type="Usuarios" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Categorias" Member="Categorias">
+    <Type Name="Categorias">
+      <Column Name="IDCategoria" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Categoria" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Categorias_Publicaciones" Member="Publicaciones" ThisKey="IDCategoria" OtherKey="IDCategoria" Type="Publicaciones" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Comentarios" Member="Comentarios">
+    <Type Name="Comentarios">
+      <Column Name="IDcomentarios" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDusuario" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="IDvideo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="descripcioncomentarios" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="IDpublicacion" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="Publicaciones_Comentarios" Member="Publicaciones" ThisKey="IDpublicacion" OtherKey="IDPublicacion" Type="Publicaciones" IsForeignKey="true" />
+      <Association Name="Usuarios_Comentarios" Member="Usuarios" ThisKey="IDusuario" OtherKey="IDusuario" Type="Usuarios" IsForeignKey="true" />
+      <Association Name="Videos_Comentarios" Member="Videos" ThisKey="IDvideo" OtherKey="IDVideos" Type="Videos" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Imagenes" Member="Imagenes">
+    <Type Name="Imagenes">
+      <Column Name="IDImagenes" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDpublicacion" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="DescripcionImagen" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Tamanoimagen" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Publicaciones_Imagenes" Member="Publicaciones" ThisKey="IDpublicacion" OtherKey="IDPublicacion" Type="Publicaciones" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Publicaciones" Member="Publicaciones">
+    <Type Name="Publicaciones">
+      <Column Name="IDPublicacion" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IDUsuario" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Titulo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Descripcion" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="IDCategoria" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="Hora" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Publicaciones_Comentarios" Member="Comentarios" ThisKey="IDPublicacion" OtherKey="IDpublicacion" Type="Comentarios" />
+      <Association Name="Publicaciones_Imagenes" Member="Imagenes" ThisKey="IDPublicacion" OtherKey="IDpublicacion" Type="Imagenes" />
+      <Association Name="Publicaciones_Videos" Member="Videos" ThisKey="IDPublicacion" OtherKey="IDpublicacion" Type="Videos" />
+      <Association Name="Categorias_Publicaciones" Member="Categorias" ThisKey="IDCategoria" OtherKey="IDCategoria" Type="Categorias" IsForeignKey="true" />
+      <Association Name="Usuarios_Publicaciones" Member="Usuarios" ThisKey="IDUsuario" OtherKey="IDusuario" Type="Usuarios" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuarios" Member="Usuarios">
+    <Type Name="Usuarios">
+      <Column Name="IDusuario" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="App" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Apm" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Contraseña" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Correo" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="Usuarios_Actividades" Member="Actividades" ThisKey="IDusuario" OtherKey="IDUsuario" Type="Actividades" />
+      <Association Name="Usuarios_Comentarios" Member="Comentarios" ThisKey="IDusuario" OtherKey="IDusuario" Type="Comentarios" />
+      <Association Name="Usuarios_Publicaciones" Member="Publicaciones" ThisKey="IDusuario" OtherKey="IDUsuario" Type="Publicaciones" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Videos" Member="Videos">
+    <Type Name="Videos">
+      <Column Name="IDVideos" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="video" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="IDpublicacion" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="Videos_Comentarios" Member="Comentarios" ThisKey="IDVideos" OtherKey="IDvideo" Type="Comentarios" />
+      <Association Name="Publicaciones_Videos" Member="Publicaciones" ThisKey="IDpublicacion" OtherKey="IDPublicacion" Type="Publicaciones" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
